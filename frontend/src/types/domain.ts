@@ -1,6 +1,9 @@
 export interface User{name:string;email:string;role:string}
 export interface Stream{id:number;code:string;name:string;description:string;source:string;lsl:number;usl:number;unit:string;measurement_count:number}
-export interface Measurement{source_key:string;sequence:number;measured_at:string;value:number}
+export interface Measurement{source_key:string;sequence:number;measured_at:string;value:number;raw_value:number;raw_unit:string}
+export interface MeasurementImportItem{source_key:string;sequence:number;measured_at:string;value:number;unit:string;line?:number}
+export interface ImportConflict{line:number;source_key:string;kind:string;reason:string;existing_lines:number[]}
+export interface MeasurementImportResult{stream_id:number;unit:string;inserted:number;duplicates:number;total:number;duplicate_lines:number[]}
 export interface BaselineStats{mean:number;mrbar:number;sigma:number;i_lower:number;i_upper:number;mr_upper:number;i_signals:number[];mr_signals:number[];stable:boolean}
 export interface Baseline{id:number;name:string;stream_id:number;sample_count:number;snapshot:{statistics:BaselineStats;points:Measurement[];input_hash:string;end_sequence:number};owner:string}
 export interface ControlPoint extends Measurement{moving_range:number;ewma:number;ewma_lower:number;ewma_upper:number;signals:string[]}

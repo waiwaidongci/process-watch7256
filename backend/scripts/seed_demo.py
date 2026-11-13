@@ -19,7 +19,7 @@ def seed():
             rng=random.Random({1:605,2:502,3:802,4:504}[idx]);existing=set(x[0] for x in db.query(Measurement.source_key).filter_by(stream_id=stream.id))
             for i in range(1,241):
                 value=round(rng.gauss(mu,sd)+(0.85 if idx==3 and i>150 else 0),4);key=f"{code}-{i:04}"
-                if key not in existing:db.add(Measurement(stream_id=stream.id,source_key=key,sequence=i,measured_at=(datetime(2026,11,1,tzinfo=timezone.utc)+timedelta(minutes=10*(i-1))).isoformat(),value=value))
+                if key not in existing:db.add(Measurement(stream_id=stream.id,source_key=key,sequence=i,measured_at=(datetime(2026,11,1,tzinfo=timezone.utc)+timedelta(minutes=10*(i-1))).isoformat(),value=value,raw_value=value,raw_unit="μm"))
             db.flush();bname=code+" · 前80点冻结基线";baseline=db.query(Baseline).filter_by(name=bname).first()
             rows=db.query(Measurement).filter_by(stream_id=stream.id).order_by(Measurement.sequence).all()
             if not baseline:
